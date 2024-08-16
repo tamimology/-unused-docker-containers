@@ -1,13 +1,13 @@
 
 
-This document is intended to provide a `docker-compose` of the Docker Containers that I have TRIED but NOT using on my Synology DS1513+ home server, as I did not find any use for me. If you are using a differnet device, that should be fine as well, just make sure you define the `$PERSIST` location in your `.env` file that corresponds to the docker folder on your host device.
+This document is intended to provide a `docker-compose` of the Docker Containers that I have TRIED but NOT used on my Synology DS1513+/Mini-PC home server, as I did not find any use for me. If you are using a different device, that should be fine as well, just make sure you define the `$PERSIST` location in your `.env` file that corresponds to the docker folder on your host device.
 
-If you are not familiar on how to use a compose file, you can change the compose to docker CLI command by using a [docker-compose Converter](https://bucherfa.github.io/dcc-web/)
+If you are not familiar with how to use a compose file, you can change the compose to docker CLI command by using a [docker-compose Converter](https://bucherfa.github.io/dcc-web/)
  
 
 Below are some ports that I have found to be reserved and cannot be used on my host, I always avoid using them
 
-##### A CONSOLIDATED `unused-docker-compose.yml` FILE CAN BE FOUND [HERE](unused-docker-compose.yml) , AND TO START, JUST RENAME THE FILE TO _`docker-compose.yml`_ and TYPE IN `docker-compose up -d` AND ALL CONTAINERS WILL START. NOTE THAT SOME CONTAIENRS REQUIRES CONFIGURATION BEFORE STARTTING, AS WELL AS MAKING SURE ALL REQUIRED FOLDERS ARE CREATED ON THE HOST MACHINE WITH THE CORRESPONDING NAMES AS IN THE COMPOSE 
+##### A CONSOLIDATED `unused-docker-compose.yml` FILE CAN BE FOUND [HERE](unused-docker-compose.yml) , AND TO START, JUST RENAME THE FILE TO _`docker-compose.yml`_ and TYPE IN `docker-compose up -d` AND ALL CONTAINERS WILL START. NOTE THAT SOME CONTAINERS REQUIRES CONFIGURATION BEFORE STARTING, AS WELL AS MAKING SURE ALL REQUIRED FOLDERS ARE CREATED ON THE HOST MACHINE WITH THE CORRESPONDING NAMES AS IN THE COMPOSE 
 
 
  #### _RESERVED PORTS NOT BE USED IN ANY CONTAINER_
@@ -38,8 +38,6 @@ Below are some ports that I have found to be reserved and cannot be used on my h
 | <a href="#grafana">Grafana</a>                                  | 3003       | An open observability platform                     | `grafana/grafana:main`               |
 | <a href="#joplindb">JoplinDB</a>                                | -          | Used for Joplin                                    | `postgres:13.1`                      |
 | <a href="#our-shopping-list-db">Our Shopping List-DB</a>        | 27017      | Used for Our Shopping List                         | `pmongo:4.0`                         |
-| <a href="#paperless-db">Paperless-DB</a>                        | 5430       | Used for Paperless                                 | `postgres:alpine`                    |
-| <a href="#paperless-redis">Paperless-Redis</a>                  | 6378       | Used for Paperless                                 | `redis:alpine`                       |
 | <a href="#phpmyadmin">phpMyAdmin</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#adminer">Adminer</a>                              | 3300       | UI interface to view self-hosted DBs               | `phpmyadmin/phpmyadmin:latest`       |
 | <a href="#phlare ">Phlare </a>                                  | 4100       | Continuous observability for workload's resources  | `grafana/phlare:latest`              |
 | <a href="#photoview-postgress">Photoview-Postgress</a>          | -          | Used for Photoview                                 | `postgres:alpine`                    |
@@ -54,6 +52,7 @@ Below are some ports that I have found to be reserved and cannot be used on my h
 | Container                                                       | Port       | Description                                        | Docker Image                         |
 | :------------                                                   | :----      | :-------                                                 | :---                           |
 | <a href="#alertmanager">AlertManager</a>                        | 9093       | Handles alerts sent by client applications (Prometheus)  | `prom/alertmanager:latest`     |
+| <a href="#auto-heal">Autoheal</a>                                  | -               | Monitor and restart unhealthy docker containers      | `modem7/docker-autoheal:latest`        |
 | <a href="#broadlinkmanager">BroadLinkManager</a>                | 7020       | Helps to work with Broadlink Devices                     | `techblog/broadlinkmanager:latest` |
 | <a href="#cadvisor">cAdvisor</a>                                | 8888       | Analyzes resource usage and performance of running containers | `gcr.io/cadvisor/cadvisor:latest` |
 | <a href="#checkmk">CheckMK</a>                                  | 8722       | Powerful monitoring of networks, servers, containers     | `checkmk/check-mk-raw:latest`  |
@@ -66,6 +65,7 @@ Below are some ports that I have found to be reserved and cannot be used on my h
 | <a href="#ouroboros">Ouroboros</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#watchtower">WatchTower</a>                               | -          | Update containers with latest images                     | `pyouroboros/ouroboros:latest` |
 | <a href="#portainer-ce">Portainer-CE</a>  ----  Personally replaced with `portainer/portainer-ee:alpine`                        | 9000,9443,8000 | Docker management tool (FREE Community Edition)      | `portainer/portainer-ce:alpine` |
 | <a href="#tls-socket-proxy">TLS-Socket-Proxy</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#socket-proxy">Docker Socket Proxy                | 2376       | A security-enhanced proxy for the Docker Socket with TLS | `sjawhar/docker-socket-proxy:latest` |
+| <a href="#container-webtty">Container-WebTTY</a>                   | 8818,8090       | SContainer WebTTY terminal access                    | `wrfly/container-web-tty:0.1.10`       |
 | <a href="#whatsupdocker">WhatsUpDocker</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#watchtower">WatchTower                      | 3000       | Same as WatchTower but with UI and actions               | `fmartinou/whats-up-docker:latest` |
 
 
@@ -96,15 +96,19 @@ Below are some ports that I have found to be reserved and cannot be used on my h
 
 | Container                                                       | Port       | Description                                        | Docker Image                           |
 | :------------                                                   | :----      | :-------                                           | :---                                   |
+| <a href="#adguard">AdGuard</a>  ----  Personally replaced with pfSense                                 | 80, 3000        | Network-wide software for blocking ads & tracking    | `adguard/adguardhome:latest`           |
+| <a href="#adguard">AdGuard-Sync</a>  ----  Personally replaced with pfSense                                 | 3006        | Synchronize AdGuardHome config to replica instances    | `ghcr.io/bakito/adguardhome-sync:latest`           |
 | <a href="#cloudflare-ddns">CloudFlare DDNS</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#cloudflared">Cloudflared</a>                  | -          | Dynamic DNS updater for CloudFlare Tunnel          | `oznu/cloudflare-ddns:latest`          |
+| <a href="#ddns-updater">DDNS Updater</a>  ----  Personally replaced with pfSense                           | 8002            | Dynamic DNS updater for mulit-DDNS services in one   | `qmcgaw/ddns-updater:latest`           |
 | <a href="#dhcpdns">DHCPdns</a> - OBSELETE, ISC ceased maintaining ISC DHCP since 2022, replaced by <a href="https://git.tamimology.com/tam/docker-containers#user-content-kea">Kea</a>                                 | 10000,67   | A DHCPdns with Webmin GUI to assign static IPs     | `mayankt/dhcpdns:latest`               |
 | <a href="#doku">Doku</a>                                        | 9090       | Monitor docker disk usage in a user-friendly manner | `amerkurev/doku:latest`               |
 | <a href="#duckdns">DuckDNS</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#ddns-updater">DDNS Updater</a>                                   | -          | Dynamic DNS updater for DuckDNS                    | `maksimstojkovic/duckdns:latest`       |
 | <a href="#fail2ban">Fail2Ban</a>                                | -          | Blockes IPs of Brute Force logins 'for Authelia'   | `crazymax/fail2ban:latest`             |
 | <a href="#goaccess">GoAccess</a>                                | 7880       | Parse proxy logs for Nginx Proxy Manager           | `xavierh/goaccess-for-nginxproxymanager:latest` |
+| <a href="#kea">Kea</a>  ----  Personally replaced with pfSense                                             | -               | A DHCP server to assign static IPs (no UI)           | `jonasal/kea-dhcp4:2`                  |
 | <a href="#lets-encrypt">Lets Encrypt</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#cloudflared">Cloudflared</a>                        | -          | Auto HTTPS certificate generator from Let's Encrypt | `maksimstojkovic/letsencrypt:latest`  |
 | <a href="#middlefinger">MiddleFinger</a>                        | 404        | Shows a dual 00100 hands for any unauthorised access | `modem7/middle-finger:dual`          |
-| <a href="#SnipeIT">SnipeIT</a>                                  | 1339       | Open source IT asset management system             | `snipe/snipe-it:latest-alpine`         |
+| <a href="#snipeit">SnipeIT</a>                                  | 1339       | Open source IT asset management system             | `snipe/snipe-it:latest-alpine`         |
 | <a href="#webdav">WebDAV</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#dufs">Dufs</a>                                    | 8888       | Access local files using WebDAV                     | `bytemark/webdav:latest`              |
 | <a href="#webnut">webNUT</a>                                    | 6543       | UPS network monitoring web ui                       | `edgd1er/webnut:latest`               |
 
@@ -116,7 +120,6 @@ Below are some ports that I have found to be reserved and cannot be used on my h
 | :------------                                                   | :----      | :-------                                           | :---                                   |
 | <a href="#appdaemon">AppDaemon</a>                              | 6060       | Sandbox py-execution environment for HomeAssistant | `acockburn/appdaemon:latest`           |
 | <a href="#it-tools">IT-Tools</a>                                | 5545       | Useful tools for developers working in IT          | `corentinth/it-tools:latest`           |
-| <a href="#mqtt">MQTT</a>                                        | 1883,9001  | Develop code for linking smart devices             | `nodered/node-red:latest`              |
 | <a href="#visual-studio-code ">Visual Studio Code </a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#code-server">Code-Server</a>          | 8181       | Code editor                                        | `codercom/code-server:latest`          |
 
 
@@ -136,24 +139,25 @@ Below are some ports that I have found to be reserved and cannot be used on my h
 | <a href="#2fauth">2FAuth</a>                                    | 8010       | 2FAuth OTP Generator                               | `2fauth/2fauth:latest`                 |
 | <a href="#chatvault">Chatvault</a>                              | 8787       | Stores backups of WhatsApp conversations from various sources | `ghcr.io/vitormarcal/chatvault:latest` |
 | <a href="#collabora">Collabora</a>                              | 9988       | Editing documents in a browser from supported applications | `tiredofit/collabora-online:latest` |
-| <a href="#flatnotes">FlatNotes</a>                              | 8053       | A database-less note-taking web app                | `dullage/flatnotes:latest`             |
+| <a href="#dufs">Dufs</a>                                           | 4688            | Utility file server that supports webdav             | `sigoden/dufs:latest`                  |
+| <a href="#flatnotes">FlatNotes</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#wiznote">WizNote</a>                              | 8053       | A database-less note-taking web app                | `dullage/flatnotes:latest`             |
 | <a href="#forgejo">Forgejo</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#gitea">Gitea</a>                                | 3332,223   | A self-hosted lightweight software forge           | `codeberg.org/forgejo/forgejo:1.21`    |
-| <a href="#joplin">Joplin</a>                                    | 2300       | Open source note taking and to-do application      | `joplin/server:latest`                 |
+| <a href="#joplin">Joplin</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#wiznote">WizNote</a>                                    | 2300       | Open source note taking and to-do application      | `joplin/server:latest`                 |
 | <a href="#kanboard">KanBoard</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#focalboard">FocalBoard</a>                                 | 4480,4443  | Kanban Board                                       | `kanboard/kanboard:latest`             |
 | <a href="#librex">LibreX</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#librey">LibreY</a>                                     | 8245       | Free privacy respecting meta search engine Google Alternative | `librex/librex:latest`      |
 | <a href="#libretranslate">LibreTranslate</a>                    | 7821       | Open Source Machine Translation API | `libretranslate/libretranslate:latest`      |
 | <a href="#lingva-translate">Lingva-Translate</a>                | 6455       | Alternative front-end for Google Translate  | `thedaviddelta/lingva-translate:latest`      |
+| <a href="#memos">Memos</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#wiznote">WizNote</a>                                         | 5230            | Capture and share your great thoughts                | `neosmemo/memos:latest`                |
 | <a href="#our-shopping-list">Our Shopping List</a>              | 8989       | A simple shared shopping list application          | `nanawel/our-shopping-list:latest`     |
-| <a href="#paperless">PaperLess</a>                              | 8777       | Document management system                         | `ghcr.io/paperless-ngx/paperless-ngx:latest` |
-| <a href="#photoprism">Photoprism</a>                            | 2342       | AI-Powered Photos App for the Decentralized Web    | `photoprism/photoprism:latest`         |
-| <a href="#photoview">Photoview</a>                              | 7354       | A simple and user-friendly Photo Gallery           | `viktorstrate/photoview:2`             |
-| <a href="#pigallery">Pigallery</a>                              | 9842       | A self-hosted directory-first photo gallery website | `bpatrik/pigallery2:latest`           |
+| <a href="#photoprism">Photoprism</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#immich">Immich</a>                            | 2342       | AI-Powered Photos App for the Decentralized Web    | `photoprism/photoprism:latest`         |
+| <a href="#photoview">Photoview</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#immich">Immich</a>                              | 7354       | A simple and user-friendly Photo Gallery           | `viktorstrate/photoview:2`             |
+| <a href="#pigallery">Pigallery</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#immich">Immich</a>                              | 9842       | A self-hosted directory-first photo gallery website | `bpatrik/pigallery2:latest`           |
 | <a href="#picoshare">PicoShare</a>                              | 8179       | Minimalist service to share files easily           | `mtlynch/picoshare:latest`             |
 | <a href="#piped-backend">Piped-Backend</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#invidious">Invidious</a>                      | -          | An advanced open-source privacy alternative to YouTube | `1337kavin/piped:latest`           |
 | <a href="#piped-frontend">Piped-Frontend</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#invidious">Invidious</a>                    | -          | A front UI for Piped-Backeend                      | `1337kavin/piped-frontend:latest`      |
 | <a href="#piped-nginx">Piped-Nginx</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#invidious">Invidious</a>                          | 7601       | Redirects all Youtube to Piped-Backend             | `nginx:mainline-alpine`                |
 | <a href="#piped-proxy">Piped-Proxy</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#invidious">Invidious</a>                          | -          | A proxy for Piped-Backend                          | `1337kavin/piped-proxy:latest`         |
-| <a href="#piwigo">Piwigo</a>                                    | 8100       | Photos/videos managing with face recognition       | `ghcr.io/linuxserver/piwigo:latest`    |
+| <a href="#piwigo">Piwigo</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#immich">Immich</a>                                    | 8100       | Photos/videos managing with face recognition       | `ghcr.io/linuxserver/piwigo:latest`    |
 | <a href="#searxng">SearXNG</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#librey">LibreY</a>                                  | 5080       | Privacy-respecting, hackable metasearch engine     | `searxng/searxng:latest`               |
 | <a href="#vault">Vault</a>                                      | 8205       | A tool for secrets management                      | `hashicorp/vault:latest`               |
 | <a href="#xbackbone">xBackbone</a>  ----  Personally replaced with <a href="https://github.com/tamimology/docker-containers#projectsend">ProjectSend</a>                              | 8522,4443  | A lightweight file manager with full ShareX support | `lscr.io/linuxserver/xbackbone:latest` |
@@ -168,8 +172,8 @@ version: '3'
 networks:
 
 # Bridge Network
-  tamimology_bridge:
-    name: tamimology_bridge
+  my_bridge:
+    name: my_bridge
     driver: bridge
     attachable: true
     ipam:
@@ -194,9 +198,9 @@ services:
 ```
 
 
-No assuming that every `docker-compose` file you use, will ghave the standard parameters on top, then you just paste each compose below that corresponds to your need. I have included those into the network definition above.
+Now assuming that every `docker-compose` file you use, will have the standard parameters on top, then you just paste each compose below that corresponds to your need. I have included those in the network definition above.
 
-You can add them to each file seperatley if needed. I assume that you will be using 1 file for all of the containers, and then `docker-compose up -d CONTAINER_NAME` to start every single contaniner. You can add as many CONTAINER_NAME as needed i.e.
+You can add them to each file separately if needed. I assume that you will be using 1 file for all of the containers, and then `docker-compose up -d CONTAINER_NAME` to start every single container. You can add as many CONTAINER_NAME as needed i.e.
 
 `docker-compose up -d cadvisor` will start the cAdvisor container only. If you use `docker-compose up -d` then all containers in the compose file will be started in one command.
 
@@ -249,7 +253,7 @@ services:
       - WEBAUTHN_ID=null
       - WEBAUTHN_ICON=null
       - WEBAUTHN_USER_VERIFICATION=preferred
-      - TRUSTED_PROXIES=null  # * to trust any proxy, or a comma separated IP list
+      - TRUSTED_PROXIES=null  # * to trust any proxy, or a comma-separated IP list
       - BROADCAST_DRIVER=log
       - QUEUE_DRIVER=sync
       - SESSION_LIFETIME=12
@@ -268,7 +272,7 @@ services:
     ports:
       - 8010:8000/tcp
     networks:
-      tamimology_bridge:
+      my_bridge:
     depends_on:
       - 2fauth-redis
     image: '2fauth/2fauth:3.0.2' #latest'
@@ -296,12 +300,90 @@ services:
     expose:
       - 6378
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'redis:alpine'
 ```
 </details>
 
 [🔼 Back to top](#databases)
+
+
+# AdGuard
+
+<details>
+  <summary>
+  </summary>
+
+```
+  adguard:
+    container_name: adguard
+    restart: $ALWAYS_ON_POLICY
+    hostname: adguard
+    environment:
+      - TZ=$TZ
+    volumes:
+      - $PERSIST/adguard/conf:/opt/adguardhome/conf 
+      - $PERSIST/adguard/work:/opt/adguardhome/work 
+      - $PERSIST/adguard/certs:/certs
+    ports:
+      - 53/udp 
+      - 67/udp 
+      - 68/tcp 
+      - 68/udp 
+      - 80/tcp 
+      - 443/tcp 
+      - 853/tcp 
+      - 3000/tcp 
+    networks:
+      my_bridge:
+         ipv4_address: $BRIDGE_NET.202
+      dockervlan:
+        ipv4_address: $MACVLAN_NET.5 # IP address inside defined $MACVLAN_RANGE range
+    security_opt:
+      - no-new-privileges:true
+    labels: 
+      autoheal: $AUTOHEAL_RESTART
+      monocker.enable: $MONOCKER_ENABLE
+    image: 'adguard/adguardhome:latest'
+```
+</details>
+
+[🔼 Back to top](#networking-and-security)
+
+
+# AdGuard-Sync
+
+<details>
+  <summary>
+  </summary>
+
+```
+  adguard-sync:
+    container_name: adguard-sync
+    restart: $ALWAYS_ON_POLICY
+    hostname: adguard-sync
+    command: run --config /config/adguardhome-sync.yaml
+    environment:
+      - LOG_LEVEL=info
+      - PUID=$PUID
+      - PGID=$PGID
+      - TZ=$TZ
+    volumes:
+      - $PERSIST/adguard/sync/adguardhome-sync.yaml:/config/adguardhome-sync.yaml
+    networks:
+      my_bridge:
+      dockervlan:
+        ipv4_address: $MACVLAN_NET.7 #must be in the same macvlan as original instance
+    labels: 
+      autoheal: $AUTOHEAL_RESTART
+      monocker.enable: $MONOCKER_ENABLE
+    ports:
+      - 3006:8080
+    image: 'ghcr.io/bakito/adguardhome-sync:latest'
+```
+</details>
+
+[🔼 Back to top](#networking-and-security)
 
 
 # AlertManager
@@ -319,7 +401,7 @@ services:
     ports:
       - 9093:9093
     networks:
-      tamimology_bridge:
+      my_bridge:
     command:
       - '--config.file=/etc/alertmanager/config.yml'
       - '--storage.path=/alertmanager'
@@ -346,7 +428,7 @@ services:
     ports:
      - 5037:5037
     networks:
-      tamimology_bridge:
+      my_bridge:
     command: sh -c "/config/startup.sh & adb -a -P 5037 server nodaemon"
     image: 'sorccu/adb:latest'
 ```
@@ -374,12 +456,42 @@ services:
     ports:
         - 6060:5050
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'acockburn/appdaemon:latest'
 ```
 </details>
 
 [🔼 Back to top](#programming)
+
+
+# Auto-Heal
+<details>
+  <summary>
+  </summary>
+
+```
+  autoheal:
+    container_name: autoheal
+    restart: $ALWAYS_ON_POLICY
+    hostname: autoheal
+    environment:
+      - AUTOHEAL_CONTAINER_LABEL=autoheal #all
+      - DOCKER_SOCK=$DOCKER_HOST
+      - APPRISE_URL=http://$LOCAL_HOST:8001/notify/autoheal
+      - AUTOHEAL_INTERVAL=5   # check every 5 seconds
+      - AUTOHEAL_START_PERIOD=600   # wait 10 minutes before the first health check
+      - AUTOHEAL_DEFAULT_STOP_TIMEOUT=60   # Docker waits max 10 seconds (the Docker default) for a container to stop before killing during restarts (container overridable via label, see below)
+      - CURL_TIMEOUT=30     # --max-time seconds for curl requests to Docker API
+      # - POST_RESTART_SCRIPT=""    # Run the specified script if a container was re
+    volumes:
+      - $LOCAL_TIME:/etc/localtime:ro
+    networks:
+      my_bridge:
+    image: 'modem7/docker-autoheal:latest'
+```
+</details>
+
+[🔼 Back to top](#docker-related)
 
 
 # BroadLinkManager
@@ -441,7 +553,7 @@ services:
     ports:
       - 8888:8080
     networks:
-      tamimology_bridge:        
+      my_bridge:        
     image: 'gcr.io/cadvisor/cadvisor:latest'
 ```
 </details>
@@ -473,7 +585,7 @@ services:
       - $PERSIST/chatvault:/opt/chatvault
       - $PERSIST/chatvault/config:/config
     networks:
-      tamimology_bridge:
+      my_bridge:
     ports:
       - 8787:8080
     depends_on:
@@ -483,7 +595,6 @@ services:
 </details>
 
 [🔼 Back to top](#self-hosted)
-
 
 
 # ChatVault-Postgres
@@ -504,7 +615,7 @@ services:
       POSTGRES_USER: chatvault
       POSTGRES_PASSWORD: $DB_PASSWORD
     networks:
-      tamimology_bridge:
+      my_bridge:
     security_opt:
       - no-new-privileges:true
     user: $PUID:$PGID
@@ -538,7 +649,7 @@ services:
     ports:
       - 8722:5000
     networks:
-      tamimology_bridge:
+      my_bridge:
     tmpfs: /opt/omd/sites/cmk/tmp:uid=1000,gid=1000
     image: 'checkmk/check-mk-raw:latest'
 ```
@@ -564,7 +675,7 @@ services:
       - PUID=$PUID
       - PGID=$PGID
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'oznu/cloudflare-ddns:latest'
 ```
 </details>
@@ -601,7 +712,7 @@ services:
     ports:
       - 9988:9980
     networks:
-      tamimology_bridge:
+      my_bridge:
     restart: always
 ```
 </details>
@@ -630,7 +741,7 @@ services:
       - CONTAINERMON_NOTIFY_HEALTHY=true
       - CONTAINERMON_CHECK_STOPPED=false
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'ghcr.io/rafhaanshah/container-mon:latest'
 ```
 </details>
@@ -653,7 +764,7 @@ services:
     ports:
       - 5050:5000
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'rmountjoy/dashmachine:latest'
 ```
 </details>
@@ -678,7 +789,7 @@ services:
     ports:
       - 4321:8080
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'techblog/decompose:latest'
 ```
 </details>
@@ -709,6 +820,56 @@ services:
 </details>
 
 [🔼 Back to top](#docker-related)
+
+
+# DDNS-Updater
+<details>
+  <summary>
+  </summary>
+
+```
+  ddns-updater:
+    container_name: ddns-updater
+    restart: $ALWAYS_ON_POLICY
+    hostname: ddns-updater
+    environment:
+      - TZ=$TZ
+      - PUID=$PUID
+      - PGID=$PGID
+      # - USER="0" #run the container as root 
+      - PERIOD=5m
+      - UPDATE_COOLDOWN_PERIOD=5m
+      - PUBLICIP_FETCHERS=all
+      - PUBLICIP_HTTP_PROVIDERS=all
+      - PUBLICIPV4_HTTP_PROVIDERS=all
+      - PUBLICIPV6_HTTP_PROVIDERS=all
+      - PUBLICIP_DNS_PROVIDERS=all
+      - PUBLICIP_DNS_TIMEOUT=3s
+      - HTTP_TIMEOUT=10s
+      - LISTENING_PORT=8000
+      - HEALTH_SERVER_ADDRESS=127.0.0.1:9999
+      - ROOT_URL=/
+      - BACKUP_PERIOD=24h # 0 to disable
+      - BACKUP_DIRECTORY=/updater/data
+      - LOG_LEVEL=info
+      - LOG_CALLER=hidden
+      - SHOUTRRR_ADDRESSES=pushover://shoutrrr:$PUSHOVER_DDNS_API@$PUSHOVER_USER_KEY
+    volumes:
+      - $PERSIST/ddns-updater:/updater/data
+    networks:
+      my_bridge:
+    ports:
+      - 8002:8000/tcp
+    user: $PUID:$PGID
+    labels: 
+      autoheal: $AUTOHEAL_RESTART
+      autoheal.stop.timeout: 30
+      monocker.enable: $MONOCKER_ENABLE
+    image: 'qmcgaw/ddns-updater:latest'
+```
+</details>
+
+[🔼 Back to top](#networking-and-security)
 
 
 # DHCPdns
@@ -761,7 +922,7 @@ services:
     ports:
       - 6001:5001
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'louislam/dockge:1'
 ```
 </details>
@@ -809,12 +970,37 @@ services:
       - DUCKDNS_DELAY=5
       - TZ=$TZ
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'maksimstojkovic/duckdns:latest'
 ```
 </details>
 
 [🔼 Back to top](#networking-and-security)
+
+
+# Dufs
+<details>
+  <summary>
+  </summary>
+
+```
+  dufs:
+    container_name: dufs
+    restart: $RESTART_POLICY
+    hostname: dufs
+    volumes:
+      - $PERSIST/dufs:/data
+    networks:
+      my_bridge:
+    ports:
+      - 4688:5000
+    command: /data -A
+    tty: true
+    image: 'sigoden/dufs:latest'
+```
+</details>
+
+[🔼 Back to top](#self-hosted)
 
 
 # Emby
@@ -842,7 +1028,7 @@ services:
       - 8096:8096/tcp
       - 2096:8920/tcp #cloudflare supported https port https://developers.cloudflare.com/fundamentals/get-started/reference/network-ports/
     networks:
-      tamimology_bridge:
+      my_bridge:
     # devices:
     #   - /dev/dri:/dev/dri # for hardware transcoding
     labels: 
@@ -873,7 +1059,7 @@ services:
     ports:
       - 6555:6555
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'uping/embystat:beta-linux-x64'
 ```
 </details>
@@ -946,7 +1132,7 @@ services:
     ports:
       - 8053:8080
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'dullage/flatnotes:latest'
 ```
 </details>
@@ -968,7 +1154,7 @@ services:
       - USER_UID=$PUID
       - USER_GID=$PGID
     networks:
-      tamimology_bridge:
+      my_bridge:
     volumes:
       - $PERSIST/forgejo:/data
       - $TIME_ZONE:/etc/TZ:ro
@@ -1031,7 +1217,7 @@ services:
     ports:
         - 7880:7880
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'xavierh/goaccess-for-nginxproxymanager:latest'
 ```
 </details>
@@ -1066,7 +1252,7 @@ services:
     ports:
       - 3003:3000
     networks:
-      tamimology_bridge:
+      my_bridge:
     depends_on:
       - influxdb
     image: 'grafana/grafana:main'
@@ -1091,7 +1277,7 @@ services:
     ports:
       - 8234:8234
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'timmo001/home-panel:latest'
 ```
 </details>
@@ -1110,7 +1296,7 @@ services:
     restart: $RESTART_POLICY
     hostname: it-tools
     networks:
-      tamimology_bridge:
+      my_bridge:
     ports:
       - 5545:80
     image: 'corentinth/it-tools:latest'
@@ -1136,7 +1322,7 @@ services:
     ports:
         - 6556:5055
     networks:
-      tamimology_bridge:
+      my_bridge:
     volumes:
         - $PERSIST/jellyseerr:/app/config
     image: 'fallenbagel/jellyseerr:latest'
@@ -1168,7 +1354,7 @@ services:
     ports:
         - 2230:2230
     networks:
-      tamimology_bridge:
+      my_bridge:
     depends_on:
         - joplindb
     image: 'joplin/server:latest'
@@ -1195,7 +1381,7 @@ services:
     volumes:
         - $PERSIST/joplin:/var/lib/postgresql/data
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'postgres:13.1'
 ```
 </details>
@@ -1220,7 +1406,7 @@ services:
     # environment:
     #   DATABASE_URL: mysql://kanboard:$DB_PASSWORD@db/kanboard
     networks:
-      tamimology_bridge:
+      my_bridge:
     ports:
       - 4480:80
       - 4443:443
@@ -1229,6 +1415,32 @@ services:
 </details>
 
 [🔼 Back to top](#self-hosted)
+
+
+# Kea
+<details>
+  <summary>
+  </summary>
+
+```
+  kea:
+    container_name: kea-dhcp4
+    restart: $ALWAYS_ON_POLICY
+    hostname: kea
+    network_mode: host
+    command: -c /kea/config/dhcp4.json
+    volumes:
+      - $PERSIST/kea/config:/kea/config
+      - $PERSIST/kea/sockets:/kea/sockets
+      - $PERSIST/kea/leases:/kea/leases
+      - $PERSIST/kea/logs:/kea/logs
+    labels: 
+      monocker.enable: $MONOCKER_ENABLE
+    image: 'jonasal/kea-dhcp4:2' # do not use the alpine as it does not support routing to Adguard
+```
+</details>
+
+[🔼 Back to top](#networking-and-security)
 
 
 # Lets Encrypt
@@ -1251,7 +1463,7 @@ services:
       - LETSENCRYPT_WILDCARD=ture
       - TZ=$TZ
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'maksimstojkovic/letsencrypt:latest'
 ```
 </details>
@@ -1284,7 +1496,7 @@ services:
     ports:
       - 7821:5000
     networks: 
-      tamimology_bridge:
+      my_bridge:
     image: 'libretranslate/libretranslate:latest'
 ```
 </details>
@@ -1317,7 +1529,7 @@ services:
     ports:
       - 8245:8080
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'librex/librex:latest'
 ```
 </details>
@@ -1343,10 +1555,36 @@ services:
     ports:
       - 6455:3000
     networks:
-      tamimology_bridge: 
+      my_bridge: 
     security_opt:
       - no-new-privileges:true
     image: 'thedaviddelta/lingva-translate:latest'
+```
+</details>
+
+[🔼 Back to top](#self-hosted)
+
+
+# Memos
+<details>
+  <summary>
+  </summary>
+
+```
+  memos:
+    container_name: memos
+    restart: $RESTART_POLICY
+    hostname: memos
+    volumes:
+      - $PERSIST/memos:/var/opt/memos
+    ports:
+      - 5230:5230
+    networks:
+      my_bridge:
+    labels: 
+      # autoheal: $AUTOHEAL_RESTART
+      monocker.enable: $MONOCKER_ENABLE
+    image: 'neosmemo/memos:latest'
 ```
 </details>
 
@@ -1366,39 +1604,12 @@ services:
     ports:
       - 404:8080
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'modem7/middle-finger:dual'
 ```
 </details>
 
 [🔼 Back to top](#networking-and-security)
-
-
-# MQTT
-<details>
-  <summary>
-  </summary>
-
-```
-  mqtt:
-    container_name: mqtt
-    restart: $RESTART_POLICY
-    hostname: mqtt
-    volumes:
-      - $PERSIST/mqtt/config:/mosquitto/config
-      - $PERSIST/mqtt/data:/mosquitto/data
-      - $PERSIST/mqtt/log:/mosquitto/log
-      - $PERSIST/mqtt/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
-    ports:
-      - 1883:1883
-      - 9001:9001
-    networks:
-      tamimology_bridge:
-    image: 'eclipse-mosquitto:latest'
-```
-</details>
-
-[🔼 Back to top](#programming)
 
 
 # Node-Exporter
@@ -1415,7 +1626,7 @@ services:
     ports:
       - 9100:9100
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'prom/node-exporter:latest'
 ```
 </details>
@@ -1446,7 +1657,7 @@ services:
       interval: 5s
       retries: 3    
     networks:
-      tamimology_bridge:
+      my_bridge:
     working_dir: /usr/src/node-red
     labels:
       - autoheal=$AUTOHEAL_RESTART
@@ -1486,7 +1697,7 @@ services:
       - 881:81
       - 843:443
     networks:
-      tamimology_bridge:
+      my_bridge:
     depends_on:
         mariadb:
           condition: service_healthy
@@ -1519,7 +1730,7 @@ services:
     ports:
       - 8989:8080
     networks:
-      tamimology_bridge:
+      my_bridge:
     depends_on:
       - osldb
     image: 'nanawel/our-shopping-list:latest'
@@ -1544,7 +1755,7 @@ services:
     ports:
       - 27017:27017
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'mongo:4.0'
 ```
 </details>
@@ -1575,104 +1786,13 @@ services:
     volumes:
       - $DOCKER_SOCKET:/var/run/docker.sock:rw
     networks:
-      tamimology_bridge:
+      my_bridge:
     working_dir: /app
     image: 'pyouroboros/ouroboros:latest'
 ```
 </details>
 
 [🔼 Back to top](#docker-related)
-
-
-# Paperless
-<details>
-  <summary>
-  </summary>
-
-```
-  paperless:
-    container_name: paperless
-    restart: $RESTART_POLICY
-    hostname: paperless
-    environment:
-      PAPERLESS_REDIS: redis://paperless-redis:6379
-      PAPERLESS_DBHOST: paperless-db
-      USERMAP_UID: $PUID
-      USERMAP_GID: $PGID
-      PAPERLESS_TIME_ZONE: $TZ
-      PAPERLESS_ADMIN_USER: admin
-      PAPERLESS_ADMIN_PASSWORD: $PASSWD
-      PAPERLESS_OCR_LANGUAGES: ara eng # https://packages.debian.org/search?keywords=tesseract-ocr-&searchon=names&suite=buster
-      PAPERLESS_OCR_LANGUAGE: eng #defualt language
-      PAPERLESS_SECRET_KEY: $APP_KEY
-      PAPERLESS_URL: https://paperless.$DOMAINNAME
-    volumes:
-      - $PERSIST/paperlessngx/data:/usr/src/paperless/data
-      - $PERSIST/paperlessngx/media:/usr/src/paperless/media
-      - $PERSIST/paperlessngx/export:/usr/src/paperless/export
-      - $PERSIST/paperlessngx/consume:/usr/src/paperless/consume
-    ports:
-      - 8777:8000
-    networks:
-      tamimology_bridge:
-    depends_on:
-      - paperless-db
-      - paperless-redis
-    image: 'ghcr.io/paperless-ngx/paperless-ngx:latest'
-```
-</details>
-
-[🔼 Back to top](#self-hosted)
-
-
-# Paperless-DB
-<details>
-  <summary>
-  </summary>
-
-```
-  paperless-db:
-    container_name: paperless-db
-    restart: $RESTART_POLICY
-    hostname: paperless-db
-    environment:
-      POSTGRES_DB: paperless
-      POSTGRES_USER: paperless
-      POSTGRES_PASSWORD: paperless
-    volumes:
-      - $PERSIST/paperlessngx/db:/var/lib/postgresql/data
-    ports:
-      - 5430:5432
-    networks:
-      tamimology_bridge:
-    image: postgres:alpine
-```
-</details>
-
-[🔼 Back to top](#databases)
-
-
-# Paperless-Redis
-<details>
-  <summary>
-  </summary>
-  
-```
-  paperless-redis:
-    container_name: paperless-redis
-    restart: $RESTART_POLICY
-    hostname: paperless-redis
-    volumes:
-      - $PERSIST/paperlessngx/broker:/data
-    expose:
-      - 6378
-    networks:
-      tamimology_bridge:
-    image: 'redis:alpine'
-```
-</details>
-
-[🔼 Back to top](#databases)
 
 
 # phpMyAdmin
@@ -1695,7 +1815,7 @@ services:
     ports:
       - 3300:80 
     networks:
-      tamimology_bridge:
+      my_bridge:
     depends_on:
       - mariadb
     tty: true
@@ -1721,7 +1841,7 @@ services:
     ports:
       - 4100:4100
     networks:
-      tamimology_bridge:
+      my_bridge:
     command: --config.file=/etc/phlare/config.yaml
     image: 'grafana/phlare:latest'
 ```
@@ -1794,7 +1914,7 @@ services:
 #     PHOTOPRISM_SITE_AUTHOR: ""
     working_dir: "/photoprism"
     networks:
-      tamimology_bridge:
+      my_bridge:
     depends_on:
       mariadb:
         condition: service_started
@@ -1827,7 +1947,7 @@ services:
     ports:
       - 7354:4000
     networks:
-      tamimology_bridge:
+      my_bridge:
     security_opt:
       - no-new-privileges:true
     read_only: true
@@ -1861,7 +1981,7 @@ services:
     volumes:
       - $PERSIST/photoview/db:/var/lib/postgresql/data:rw
     networks:
-      tamimology_bridge:  
+      my_bridge:  
     security_opt:
       - no-new-privileges:true
     user: $PUID:$PGID
@@ -1895,7 +2015,7 @@ services:
     ports:
       - 8179:3001
     networks:
-      tamimology_bridge:
+      my_bridge:
     command: -db /data/store.db -vacuum true
     image: 'mtlynch/picoshare:latest'
 ```
@@ -1925,7 +2045,7 @@ services:
     ports:
       - 9842:8080
     networks:
-      tamimology_bridge:  
+      my_bridge:  
     security_opt:
       - no-new-privileges:true
     read_only: true
@@ -1957,7 +2077,7 @@ services:
       POSTGRES_USER: piped
       POSTGRES_PASSWORD: $DB_PASSWORD
     networks:
-      tamimology_bridge:
+      my_bridge:
     security_opt:
       - no-new-privileges:true
     healthcheck:
@@ -1988,7 +2108,7 @@ services:
     volumes:
       - $PERSIST/piped/config.properties:/app/config.properties:ro
     networks:
-      tamimology_bridge:
+      my_bridge:
     healthcheck:
       test: stat /etc/passwd || exit 1
     labels: 
@@ -2017,7 +2137,7 @@ services:
     hostname: piped-frontend
     restart: $RESTART_POLICY
     networks:
-      tamimology_bridge:
+      my_bridge:
     security_opt:
       - no-new-privileges:true
     depends_on:
@@ -2049,7 +2169,7 @@ services:
     ports:
       - 7601:80
     networks:
-      tamimology_bridge:
+      my_bridge:
     volumes:
       - $PERSIST/piped/proxy:/var/run/ytproxy:rw
       - $PERSIST/piped/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
@@ -2093,7 +2213,7 @@ services:
     volumes:
       - $PERSIST/piped/proxy:/app/socket:rw
     networks:
-      tamimology_bridge:
+      my_bridge:
     read_only: true
     security_opt:
       - no-new-privileges:true
@@ -2130,7 +2250,7 @@ services:
     ports:
       - 8100:80
     networks:
-      tamimology_bridge:
+      my_bridge:
     labels:
       - autoheal=$AUTOHEAL_RESTART
     depends_on:
@@ -2167,7 +2287,7 @@ services:
     expose: 
       - 3306
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'jbergstroem/mariadb-alpine:10.6.13'
 ```
 </details>
@@ -2193,7 +2313,7 @@ services:
     ports:
       - 9090:9090
     networks:
-      tamimology_bridge:
+      my_bridge:
     user: root
     command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus"
     image: 'prom/prometheus:latest' 
@@ -2231,7 +2351,7 @@ services:
       retries: 3
     #network_mode: "host"
     networks:
-      tamimology_bridge:
+      my_bridge:
     labels:
       - autoheal=$AUTOHEAL_RESTART
     image: 'plexinc/pms-docker:latest'
@@ -2263,7 +2383,7 @@ services:
       - 9000:9000/tcp
       - 9443:9443/tcp
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'portainer/portainer-ce:alpine'
 ```
 </details>
@@ -2286,7 +2406,7 @@ services:
     ports:
       - 9494:9494
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'ghcr.io/aleksilassila/reiverr:latest'
 ```
 </details>
@@ -2311,7 +2431,7 @@ services:
     ports:
      - 5080:8080
     networks:
-      tamimology_bridge:
+      my_bridge:
     cap_drop:
       - ALL
     cap_add:
@@ -2347,7 +2467,7 @@ services:
     ports:
         - 18080:8080
     networks:
-      tamimology_bridge:
+      my_bridge:
     volumes:
         - $PERSIST/shiori:/shiori
     image: 'ghcr.io/go-shiori/shiori:latest'
@@ -2372,7 +2492,7 @@ services:
     depends_on:
       - mariadb
     networks:
-      tamimology_bridge:
+      my_bridge:
     volumes:
       - $PERSIST/snipeit:/config:rw
     environment:
@@ -2449,7 +2569,7 @@ services:
     ports:
       - 8205:8200
     networks:
-      tamimology_bridge:
+      my_bridge:
     security_opt:
       - no-new-privileges:true
     cap_add:
@@ -2482,7 +2602,7 @@ services:
     ports:
       - 8181:8080
     networks:
-      tamimology_bridge:
+      my_bridge:
     working_dir: /home/coder
     command: code-server --no-auth # if using proxy add: --allow-http
     image: 'codercom/code-server:latest'
@@ -2490,6 +2610,31 @@ services:
 </details>
 
 [🔼 Back to top](#programming)
+
+
+# Container-WebTTY
+<details>
+  <summary>
+  </summary>
+
+```
+  webtty:
+    container_name: container-webtty
+    restart: $RESTART_POLICY
+    hostname: webtty
+    environment:
+      - DOCKER_HOST=$SOCKET
+    # volumes:
+    #   - $DOCKER_SOCKET:/var/run/docker.sock
+    ports:
+      - 8818:8080
+    networks:
+      my_bridge:
+    image: 'wrfly/container-web-tty:0.1.10' #latest'
+```
+</details>
+
+[🔼 Back to top](#docker-related)
 
 
 # WhatsUpDocker
@@ -2520,7 +2665,7 @@ services:
       retries: 3
       start_period: 10s  
     networks:
-      tamimology_bridge:
+      my_bridge:
     ports:
       - 3000:3000
     image: 'fmartinou/whats-up-docker:latest'
@@ -2551,7 +2696,7 @@ services:
     ports:
       - 8888:80
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'bytemark/webdav:latest'
 ```
 </details>
@@ -2607,7 +2752,7 @@ services:
     ports:
       - 5800:3000
     networks:
-      tamimology_bridge:
+      my_bridge:
         ipv4_address: $BRIDGE_NET.100
     tty: true
     working_dir: /usr/src/app
@@ -2638,7 +2783,7 @@ services:
       - 8522:80
       - 4443:443
     networks:
-      tamimology_bridge: 
+      my_bridge: 
     image: 'lscr.io/linuxserver/xbackbone:latest'
 ```
 </details>
