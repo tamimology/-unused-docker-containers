@@ -4,16 +4,13 @@
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # 6378            - 2FAuth-Redis                     Used for 2FAuth                                                redis:alpine
 # -               - Chatvault-Postgres               Used for Chatvault                                             postgres:alpine
-# 3003            - Grafana                          An open observability platform                                 grafana/grafana:main
 # -               - JoplinDB                         Used for Joplin                                                postgres:13.1
 # 27017           - Our Shopping List-DB             Used for Our Shopping List                                     mongo:4.0
-# 5430            - Paperless-DB                     Used for Paperless                                             postgres:alpine
-# 6378            - Paperless-Redis                  Used for Paperless                                             redis:alpine
 # 3300            - phpMyAdmin                       UI interface to view self-hosted DBs                           phpmyadmin/phpmyadmin:latest
+# 4100            - Phlare                           Continuous observability for workload's resources              grafana/phlare:latest
 # -               - Photoview-Postgress              Used for Photoview                                             postgres:alpine
 # -               - Piped-Postgres                   Used for Piped                                                 postgres:alpine
 # -               - Piwigo-DB                        Used for Piwigo                                                vcxpz/mariadb:latest
-# 4100            - Phlare                           Continuous observability for workload's resources              grafana/phlare:latest
 # 9090            - Prometheus                       Systems and service monitoring system                          prom/prometheus:latest
 #
 #
@@ -21,7 +18,7 @@
 # DOCKER RELATED
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # 9093            - AlertManager                     Handles alerts sent by client applications (Prometheus)        prom/alertmanager:latest
-# -               - Autoheal                         Monitor and restart unhealthy docker containers                willfarrell/autoheal:latest
+# -               - Autoheal                         Monitor and restart unhealthy docker containers                modem7/docker-autoheal:latest
 # 7020            - BroadLinkManager                 Helps to work with Broadlink Devices                           techblog/broadlinkmanager:latest
 # 8888            - cAdvisor                         Analyzes resource usage and performance of running containers  gcr.io/cadvisor/cadvisor:latest
 # 8722            - CheckMK                          Powerful monitoring of networks, servers, containers           checkmk/check-mk-raw:latest
@@ -34,6 +31,7 @@
 # -               - Ouroboros                        Update containers with latest images                           pyouroboros/ouroboros:latest
 # 9000,9443,8000  - Portainer-CE                     Docker management tool (FREE Community Edition)                portainer/portainer-ce:alpine
 # 2376            - TLS-Socket-Proxy                 A security-enhanced proxy for the Docker Socket with TLS       sjawhar/docker-socket-proxy:latest
+# 8818,8090       - WebTTY                           Container WebTTY terminal access                               wrfly/container-web-tty:0.1.10
 # 3000            - WhatsUpDocker                    Same as WatchTower but with UI and actions                     fmartinou/whats-up-docker:latest
 #
 #
@@ -53,18 +51,21 @@
 # 6556            - Jellyseerr                       Managing requests for media library                            fallenbagel/jellyseerr:latest
 # 32400           - Plex Media Server                Media server (standby)                                         plexinc/pms-docker:latest
 #
-#
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # NETWORKING & SECURITY
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# 80, 3000        - AdGuardHome                      Network-wide software for blocking ads & tracking              adguard/adguardhome:latest
+# 3006            - AdGuard-Sync                     Synchronize AdGuardHome config to replica instances            ghcr.io/bakito/adguardhome-sync:latest
 # -               - CloudFlare DDNS                  Dynamic DNS updater for CloudFlare Tunnel                      oznu/cloudflare-ddns:latest
+# 8002            - DDNS Updater                     Dynamic DNS updater for mulit-DDNS services in one             qmcgaw/ddns-updater:latest
 # 10000,67        - DHCPdns                          A DHCPdns with Webmin GUI to assign static IPs                 mayankt/dhcpdns:latest
 # 9090            - Doku                             Monitor docker disk usage in a user-friendly manner            amerkurev/doku:latest
 # -               - DuckDNS                          Dynamic DNS updater for DuckDNS                                maksimstojkovic/duckdns:latest
 # -               - Fail2Ban                         Blockes IPs of Brute Force logins 'for Authelia'               crazymax/fail2ban:latest
 # 7880            - GoAccess                         Parse proxy logs for Nginx Proxy Manager                       xavierh/goaccess-for-nginxproxymanager:latest
-# 404             - MiddleFinger                     Shows a dual 00100 hands for any unauthorised access           modem7/middle-finger:dual
+# -               - Kea                              A DHCP server to assign static IPs (no UI)                     jonasal/kea-dhcp4:2
 # -               - Let's Encrypt                    Auto HTTPS certificate generator from Let's Encrypt            maksimstojkovic/letsencrypt:latest
+# 404             - MiddleFinger                     Shows a dual 00100 hands for any unauthorised access           modem7/middle-finger:dual
 # 881,880,843     - Nginx Proxy Manager              Reverse proxy manager                                          jc21/nginx-proxy-manager:latest
 # 1339            - SnipeIT                          Open source IT asset management system                         snipe/snipe-it:latest-alpine
 # 8888            - WebDAV                           Access local files using WebDAV                                bytemark/webdav:latest
@@ -75,9 +76,8 @@
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # PROGRAMMING
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# 6060            - AppDaemon                        Sandboxed python execution environment for HomeAssistant       acockburn/appdaemon:latest
+# 6060            - AppDaemon                        sandboxed python execution environment for HomeAssistant       acockburn/appdaemon:latest
 # 5545            - IT-Tools                         Useful tools for developer and people working in IT            corentinth/it-tools:latest
-# 1883,9001       - MQTT                             Mosquitto broker                                               eclipse-mosquitto:latest
 # 1880            - Node-Red                         Develop code for linking smart devices                         nodered/node-red:latest
 # 8181            - Visual Studio Code               Code editor                                                    codercom/code-server:latest
 #
@@ -94,15 +94,16 @@
 # 8010            - 2FAuth                           2FAuth OTP Generator                                           2fauth/2fauth:latest
 # 8787            - Chatvault                        Stores backups of WhatsApp conversations from various sources  ghcr.io/vitormarcal/chatvault:latest
 # 9988            - Collabora                        Editing documents in a browser from supported applications     tiredofit/collabora-online:latest
+# 4688            - Dufs                             Utility file server that supports webdav                       sigoden/dufs:latest
 # 8053            - FlatNotes                        A database-less note-taking web app                            dullage/flatnotes:latest
 # 3332,223        - Forgejo                          A self-hosted lightweight software forge                       codeberg.org/forgejo/forgejo:1.21
+# 2300            - Joplin                           Open source note taking and to-do application                  joplin/server:latest
 # 4480,4443       - KanBoard                         Kanban Board                                                   kanboard/kanboard:latest
+# 5230            - Memos                            Capture and share your great thoughts                          neosmemo/memos:latest
 # 8245            - LibreX                           Free privacy respecting meta search engine Google Alternative  librex/librex:latest
 # 7821            - LibreTranslate                   Open Source Machine Translation API                            libretranslate/libretranslate:latest
 # 6455            - Lingva-Translate                 Alternative front-end for Google Translate                     thedaviddelta/lingva-translate:latest
-# 2300            - Joplin                           Open source note taking and to-do application                  joplin/server:latest
 # 8989            - Our Shopping List                A simple shared shopping list application                      nanawel/our-shopping-list:latest
-# 8777            - PaperLess                        Document management system                                     ghcr.io/paperless-ngx/paperless-ngx:latest
 # 2342            - Photoprism                       AI-Powered Photos App for the Decentralized Web                photoprism/photoprism:latest
 # 7354            - Photoview                        A simple and user-friendly Photo Gallery                       viktorstrate/photoview:2
 # 8179            - PicoShare                        Minimalist service to share files easily                       mtlynch/picoshare:latest
@@ -159,7 +160,7 @@ services:
       - AUTHENTICATION_GUARD=web-guard
       - AUTH_PROXY_HEADER_FOR_USER=null
       - AUTH_PROXY_HEADER_FOR_EMAIL=null
-      - WEBAUTHN_NAME=My Server 2FAuth
+      - WEBAUTHN_NAME=Tamimology Server 2FAuth
       - WEBAUTHN_ID=null
       - WEBAUTHN_ICON=null
       - WEBAUTHN_USER_VERIFICATION=preferred
@@ -182,7 +183,7 @@ services:
     ports:
       - 8010:8000/tcp
     networks:
-      tamimology_bridge:
+      my_bridge:
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
     depends_on:
@@ -206,10 +207,81 @@ services:
     expose:
       - 6378
     networks:
-      tamimology_bridge:
+      my_bridge:
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
     image: 'redis:alpine'
+#
+####################################################
+#                                                  #
+#              -------AdGuard-------               #
+#                                                  #
+####################################################
+#
+# a good source for blocklists
+# https://oisd.nl/?p=dl
+# https://github.com/AdguardTeam/AdGuardHome/issues/1325
+#
+#
+  adguard:
+    container_name: adguard
+    restart: $ALWAYS_ON_POLICY
+    hostname: adguard
+    environment:
+      - TZ=$TZ
+    volumes:
+      - $PERSIST/adguard/conf:/opt/adguardhome/conf 
+      - $PERSIST/adguard/work:/opt/adguardhome/work 
+      - $PERSIST/adguard/certs:/certs
+    ports:
+      - 53/udp 
+      - 67/udp 
+      - 68/tcp 
+      - 68/udp 
+      - 80/tcp 
+      - 443/tcp 
+      - 853/tcp 
+      - 3000/tcp 
+    networks:
+      my_bridge:
+        ipv4_address: $BRIDGE_NET.202
+      dockervlan:
+        ipv4_address: $MACVLAN_NET.9
+    security_opt:
+      - no-new-privileges:true
+    labels: 
+      autoheal: $AUTOHEAL_RESTART
+      monocker.enable: $MONOCKER_ENABLE
+    image: 'adguard/adguardhome:latest'
+#
+####################################################
+#                                                  #
+#             -------AdGuard-Sync-------           #
+#                                                  #
+####################################################
+#
+  adguard-sync:
+    container_name: adguard-sync
+    restart: $ALWAYS_ON_POLICY
+    hostname: adguard-sync
+    command: run --config /config/adguardhome-sync.yaml
+    environment:
+      - LOG_LEVEL=info
+      - PUID=$PUID
+      - PGID=$PGID
+      - TZ=$TZ
+    volumes:
+      - $PERSIST/adguard/sync/adguardhome-sync.yaml:/config/adguardhome-sync.yaml
+    networks:
+      my_bridge:
+      dockervlan:
+        ipv4_address: $MACVLAN_NET.7 #must be in the same macvlan as original instance
+    labels: 
+      autoheal: $AUTOHEAL_RESTART
+      monocker.enable: $MONOCKER_ENABLE
+    ports:
+      - 3006:8080
+    image: 'ghcr.io/bakito/adguardhome-sync:latest'
 #
 ####################################################
 #                                                  #
@@ -228,7 +300,7 @@ services:
     ports:
       - 9093:9093
     networks:
-      tamimology_bridge:
+      my_bridge:
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
     command:
@@ -252,7 +324,7 @@ services:
     ports:
      - 5037:5037
     networks:
-      tamimology_bridge:
+      my_bridge:
     command: sh -c "/config/startup.sh & adb -a -P 5037 server nodaemon"
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
@@ -270,15 +342,40 @@ services:
     hostname: appdaemon
     environment:
         - HA_URL=http://$LOCAL_HOST:8123
-        - TOKEN=$APPDAEMON_TOKEN
+        - TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIxNjY2ZWMwZGI4YWE0MTYwODQ5NDYzMWEyNWY5ODAzMyIsImlhdCI6MTY4ODQ1ODUyMSwiZXhwIjoyMDAzODE4NTIxfQ.PEsdgMBC0Oc2Zl9Wl2VYPY2LGKzqvO02XxkkeQSnfL8
         - DASH_URL=http://$LOCAL_HOST:6060
     volumes:
         - $PERSIST/appdaemon:/conf'
     ports:
         - 6060:5050
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'acockburn/appdaemon:latest'
+#
+####################################################
+#                                                  #
+#             -------Auto-Heal-------              #
+#                                                  #
+####################################################
+#
+  autoheal:
+    container_name: autoheal
+    restart: $ALWAYS_ON_POLICY
+    hostname: autoheal
+    environment:
+      - AUTOHEAL_CONTAINER_LABEL=autoheal #all
+      - DOCKER_SOCK=$DOCKER_HOST
+      - APPRISE_URL=http://$LOCAL_HOST:8001/notify/autoheal
+      - AUTOHEAL_INTERVAL=5   # check every 5 seconds
+      - AUTOHEAL_START_PERIOD=600   # wait 10 minutes before first health check
+      - AUTOHEAL_DEFAULT_STOP_TIMEOUT=60   # Docker waits max 10 seconds (the Docker default) for a container to stop before killing during restarts (container overridable via label, see below)
+      - CURL_TIMEOUT=30     # --max-time seconds for curl requests to Docker API
+      # - POST_RESTART_SCRIPT=""    # Run the specified script if a container was re
+    volumes:
+      - $LOCAL_TIME:/etc/localtime:ro
+    networks:
+      my_bridge:
+    image: 'modem7/docker-autoheal:latest' # 'willfarrell/autoheal:latest'
 #
 ####################################################
 #                                                  #
@@ -297,7 +394,7 @@ services:
     ports:
       - 7020:7020
     # networks:
-    #   tamimology_bridge:
+    #   my_bridge:
     network_mode: host
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
@@ -338,7 +435,7 @@ services:
     ports:
       - 8888:8080
     networks:
-      tamimology_bridge:        
+      my_bridge:        
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
     image: 'gcr.io/cadvisor/cadvisor:latest'
@@ -367,7 +464,7 @@ services:
       - $PERSIST/chatvault:/opt/chatvault
       - $PERSIST/chatvault/config:/config
     networks:
-      tamimology_bridge:
+      my_bridge:
     ports:
       - 8787:8080
     depends_on:
@@ -392,7 +489,7 @@ services:
       POSTGRES_USER: chatvault
       POSTGRES_PASSWORD: $DB_PASSWORD
     networks:
-      tamimology_bridge:
+      my_bridge:
     security_opt:
       - no-new-privileges:true
     user: $PUID:$PGID
@@ -423,7 +520,7 @@ services:
     ports:
       - 8722:5000
     networks:
-      tamimology_bridge:
+      my_bridge:
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
     tmpfs: /opt/omd/sites/cmk/tmp:uid=1000,gid=1000
@@ -441,12 +538,12 @@ services:
     hostname: cloudflare-ddns
     environment:
       - API_KEY=$DDNS_AUTOUPDATE_TOKEN
-      - ZONE=$DDNS_ZONE
+      - ZONE=tamimology.com
       - PROXIED=true
       - PUID=$PUID
       - PGID=$PGID
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'oznu/cloudflare-ddns:latest'
 #
 ####################################################
@@ -458,6 +555,7 @@ services:
   collabora:
     image: 'tiredofit/collabora-online:latest'
     container_name: collabora
+    # hostname: online.example.com
     cap_add:
       - MKNOD
       - NET_ADMIN
@@ -477,7 +575,7 @@ services:
     ports:
       - 9988:9980
     networks:
-      tamimology_bridge:
+      my_bridge:
     restart: always
 #
 ####################################################
@@ -501,7 +599,7 @@ services:
       - CONTAINERMON_NOTIFY_HEALTHY=true
       - CONTAINERMON_CHECK_STOPPED=false
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'ghcr.io/rafhaanshah/container-mon:latest'
 #
 ####################################################
@@ -521,10 +619,67 @@ services:
     ports:
       - 5050:5000
     networks:
-      tamimology_bridge:
+      my_bridge:
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
     image: 'rmountjoy/dashmachine:latest'
+#
+####################################################
+#                                                  #
+#             -------DDNS-Updater-------           #
+#                                                  #
+####################################################
+#
+# set the folder and all files in it permission to DOCKER user
+# chown -R 1036:100 ddns-updater
+#
+# set the folder and updates.json in it permission to ROOT
+# chown 1000 ddns-updater
+# chown 1000 ddns-updater/updates.json
+#
+#
+  ddns-updater:
+    container_name: ddns-updater
+    restart: $ALWAYS_ON_POLICY
+    hostname: ddns-updater
+    environment:
+      - TZ=$TZ
+      - PUID=$PUID
+      - PGID=$PGID
+      # - USER="0" #run the container as root 
+      - PERIOD=5m
+      - UPDATE_COOLDOWN_PERIOD=5m
+      - PUBLICIP_FETCHERS=all
+      - PUBLICIP_HTTP_PROVIDERS=all
+      - PUBLICIPV4_HTTP_PROVIDERS=all
+      - PUBLICIPV6_HTTP_PROVIDERS=all
+      - PUBLICIP_DNS_PROVIDERS=all
+      - PUBLICIP_DNS_TIMEOUT=3s
+      - HTTP_TIMEOUT=10s
+      - LISTENING_PORT=8000
+      - HEALTH_SERVER_ADDRESS=127.0.0.1:9999
+      - ROOT_URL=/
+      - BACKUP_PERIOD=24h # 0 to disable
+      - BACKUP_DIRECTORY=/updater/data
+      - LOG_LEVEL=info
+      - LOG_CALLER=hidden
+      - SHOUTRRR_ADDRESSES=pushover://shoutrrr:$PUSHOVER_DDNS_API@$PUSHOVER_USER_KEY
+    volumes:
+      - $PERSIST/ddns-updater:/updater/data
+    networks:
+      my_bridge:
+    ports:
+      - 8002:8000/tcp
+    user: $PUID:$PGID
+    labels: 
+      autoheal: $AUTOHEAL_RESTART
+      autoheal.stop.timeout: 30
+      monocker.enable: $MONOCKER_ENABLE
+    # logging:
+    #   driver: loki
+    #   options:
+    #     loki-url: "http://$LOCAL_HOST:3002/loki/api/v1/push"
+    image: 'qmcgaw/ddns-updater:latest'
 #
 ####################################################
 #                                                  #
@@ -543,7 +698,11 @@ services:
     ports:
       - 4321:8080
     networks:
-      tamimology_bridge:
+      my_bridge:
+    # logging:
+    #   driver: loki
+    #   options:
+    #     loki-url: "http://$LOCAL_HOST:3002/loki/api/v1/push"
     image: 'techblog/decompose:latest'
 #
 ####################################################
@@ -596,6 +755,7 @@ services:
     #     - "67/udp"
     volumes:
         - $PERSIST/dhcpdns:/data
+        # - $PERSIST/dhcpdns/dhcp/dhcpd.leases:/var/lib/dhcp/dhcpd.leases
         - $PERSIST/dhcpdns/dhcp/dhcpd.conf:/data/dhcp/dhcpd.conf:rw
     network_mode: host
     ports:
@@ -606,6 +766,7 @@ services:
       - 10000:10000/tcp
     cap_add:
         - NET_ADMIN
+  #   hostname: dhcpdns
     image: 'mayankt/dhcpdns:latest'
 #
 ####################################################
@@ -619,7 +780,7 @@ services:
     restart: $RESTART_POLICY
     hostname: dockge
     environment:
-      - DOCKER_HOST=$DOCKER_HOST
+      - DOCKER_HOST=$DOCKER_HOST #$SOCKET
       - DOCKGE_STACKS_DIR=$PERSIST/dockge/stacks
     volumes:
       # - $DOCKER_SOCKET:/var/run/docker.sock
@@ -628,7 +789,7 @@ services:
     ports:
       - 6001:5001
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'louislam/dockge:1'
 #
 ####################################################
@@ -648,6 +809,8 @@ services:
         - /:/hostroot:ro
     ports:
         - 9090:9090
+    # networks:
+    #   my_bridge:
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
     image: 'amerkurev/doku:latest'
@@ -668,10 +831,31 @@ services:
       - DUCKDNS_DELAY=5
       - TZ=$TZ
     networks:
-      tamimology_bridge:
+      my_bridge:
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
     image: 'maksimstojkovic/duckdns:latest'
+#
+#
+####################################################
+#                                                  #
+#                  -------Dufs-------              #
+#                                                  #
+####################################################
+#
+  dufs:
+    container_name: dufs
+    restart: $RESTART_POLICY
+    hostname: dufs
+    volumes:
+      - $PERSIST/dufs:/data
+    networks:
+      my_bridge:
+    ports:
+      - 4688:5000
+    command: /data -A
+    tty: true
+    image: 'sigoden/dufs:latest'
 #
 ####################################################
 #                                                  #
@@ -702,11 +886,15 @@ services:
       - 8096:8096/tcp
       - 2096:8920/tcp #cloudflare supported https port https://developers.cloudflare.com/fundamentals/get-started/reference/network-ports/
     networks:
-      tamimology_bridge:
+      my_bridge:
     # devices:
     #   - /dev/dri:/dev/dri # for hardware transcoding
     labels: 
       monocker.enable: $MONOCKER_ENABLE
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://$LOCAL_HOST:3002/loki/api/v1/push"
     image: 'emby/embyserver:latest'
 #
 ####################################################
@@ -714,6 +902,13 @@ services:
 #              -------EmbyStat-------              #
 #                                                  #
 ####################################################
+#
+# API Key: (Jellyfin)
+# 4ccadfd28e4d4cc382362cbd12798055
+#
+# API Key: (Emby)
+# d89469466d924267b9113e8456b1dff1
+#
 #
   embystat:
     container_name: embystat
@@ -728,7 +923,7 @@ services:
     ports:
       - 6555:6555
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'uping/embystat:beta-linux-x64'
 #
 ####################################################
@@ -763,11 +958,17 @@ services:
       - $PERSIST/authelia/config:/var/log/authelia:ro
       - $PERSIST/vaultwarden/vaultwarden.log:/var/log/vaultwarden/vaultwarden.log:ro
       - $PERSIST/data/navidrome/navidrome.log:/var/log/navidrome/navidrome.log:ro
+    # networks:
+    #   my_bridge:
     network_mode: host
     privileged: true
     cap_add:
       - NET_ADMIN
       - NET_RAW
+    # logging:
+    #   driver: loki
+    #   options:
+    #     loki-url: "http://$LOCAL_HOST:3002/loki/api/v1/push"
     image: 'crazymax/fail2ban:latest'
 #
 ####################################################
@@ -784,7 +985,7 @@ services:
       PUID: $PUID
       PGID: $PGID
       FLATNOTES_AUTH_TYPE: "password"
-      FLATNOTES_USERNAME: "user"
+      FLATNOTES_USERNAME: "tam"
       FLATNOTES_PASSWORD: "$DB_PASSWORD"
       FLATNOTES_SECRET_KEY: "$APP_KEY"
     volumes:
@@ -793,7 +994,7 @@ services:
     ports:
       - 8053:8080
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'dullage/flatnotes:latest'
 #
 ####################################################
@@ -812,7 +1013,7 @@ services:
       - USER_UID=$PUID
       - USER_GID=$PGID
     networks:
-      tamimology_bridge:
+      my_bridge:
     volumes:
       - $PERSIST/forgejo:/data
       - $TIME_ZONE:/etc/TZ:ro
@@ -858,65 +1059,17 @@ services:
         - PGID=$PGID
         - TZ=$TZ
         - BASIC_AUTH=true
-        - BASIC_AUTH_USERNAME=user
+        - BASIC_AUTH_USERNAME=tam
         - BASIC_AUTH_PASSWORD=$DB_PASSWORD
     volumes:
         - $PERSIST/nginx-proxy/logs:/opt/log
     ports:
         - 7880:7880
     networks:
-      tamimology_bridge:
+      my_bridge:
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
     image: 'xavierh/goaccess-for-nginxproxymanager:latest'
-#
-####################################################
-#                                                  #
-#             -------Grafana-------                #
-#                                                  #
-####################################################
-#
-# ADMIN PASSOWRD RESET
-#
-# access the container using bash and run the below command
-# grafana-cli admin reset-admin-password <new password>
-#
-#
-# TO MAP DATABASE V2 TO V1 AND USE IN GRAFANA, (refer to https://docs.influxdata.com/influxdb/v2.0/tools/grafana/?t=InfluxQL)
-# access the container using bash and run the below commands
-# influx bucket ls (copy bucket-ID)
-# influx v1 dbrp create --db homeassistantDB --rp INF --bucket-id 586afafb52ddfc99(bucekt-ID) --default
-# influx v1 auth create --read-bucket 586afafb52ddfc99(bucekt-ID) --write-bucket 586afafb52ddfc99(bucekt-ID) --username homeassistant
-# influx v1 auth list
-# use homeassistant as User
-# homeassistantDB as database
-#
-#
-  grafana:
-    container_name: grafana
-    restart: $RESTART_POLICY
-    hostname: grafana
-    environment: #You can do this with any of the configuration options in https://github.com/grafana/grafana/blob/main/conf/defaults.ini by setting GF_<SectionName>_<KeyName>__FILE to the path of the file holding the secret.
-      - GF_AUTH_DISABLE_LOGIN_FORM=true
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-      - GF_SECURITY_ALLOW_EMBEDDING=true
-      - GF_FEATURE_TOGGLES_ENABLE=flameGraph
-      - GF_DASHBOARDS_MIN_REFRESH_INTERVAL=1s
-      # - GF_AUTH_DISABLE_LOGIN_FORM=true
-      # - GF_AUTH_ANONYMOUS_ENABLED=true
-      # - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-      # - GF_SERVER_ROOT_URL
-    user: '1000'    
-    volumes:
-      - $PERSIST/grafana:/var/lib/grafana
-    ports:
-      - 3003:3000
-    networks:
-      tamimology_bridge:
-    depends_on:
-      - influxdb
-    image: 'grafana/grafana:main' #'grafana/grafana-enterprise:latest'
 #
 ####################################################
 #                                                  #
@@ -933,7 +1086,7 @@ services:
     ports:
       - 8234:8234
     networks:
-      tamimology_bridge:
+      my_bridge:
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
     image: 'timmo001/home-panel:latest'
@@ -949,7 +1102,7 @@ services:
     restart: $RESTART_POLICY
     hostname: it-tools
     networks:
-      tamimology_bridge:
+      my_bridge:
     ports:
       - 5545:80
     image: 'corentinth/it-tools:latest'
@@ -970,7 +1123,7 @@ services:
     ports:
         - 6556:5055
     networks:
-      tamimology_bridge:
+      my_bridge:
     volumes:
         - $PERSIST/jellyseerr:/app/config
     image: 'fallenbagel/jellyseerr:latest'
@@ -999,7 +1152,7 @@ services:
     ports:
         - 2230:2230
     networks:
-      tamimology_bridge:
+      my_bridge:
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
     depends_on:
@@ -1023,7 +1176,7 @@ services:
     volumes:
         - $PERSIST/joplin:/var/lib/postgresql/data
     networks:
-      tamimology_bridge:
+      my_bridge:
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART          
     image: 'postgres:13.1'
@@ -1045,11 +1198,46 @@ services:
     # environment:
     #   DATABASE_URL: mysql://kanboard:$DB_PASSWORD@db/kanboard
     networks:
-      tamimology_bridge:
+      my_bridge:
     ports:
       - 4480:80
       - 4443:443
     image: 'kanboard/kanboard:latest'
+#
+####################################################
+#                                                  #
+#                 -------Kea-------                #
+#                                                  #
+####################################################
+#
+# migrating to pfsense
+# /usr/local/etc/kea/kea-dhcp4.conf
+# insert under the "subnet4" section
+#
+# Don't edit the file directly
+# Try to go to  Diagnostics > Backup/Restore
+# Create a backup file
+# Edit the backup file 
+# Restore the edited back up file
+#
+#
+# ##If you have the original lease database files you can just stop the DHCP daemon(s) and copy the files into /var/dhcp/var/db/ then start the daemons again.
+# 
+#
+  kea:
+    container_name: kea-dhcp4
+    restart: $ALWAYS_ON_POLICY
+    hostname: kea
+    network_mode: host
+    command: -c /kea/config/dhcp4.json
+    volumes:
+      - $PERSIST/kea/config:/kea/config
+      - $PERSIST/kea/sockets:/kea/sockets
+      - $PERSIST/kea/leases:/kea/leases
+      - $PERSIST/kea/logs:/kea/logs
+    labels: 
+      monocker.enable: $MONOCKER_ENABLE
+    image: 'jonasal/kea-dhcp4:2' # do not use the alpine as it does not support routing to Adguard
 #
 ####################################################
 #                                                  #
@@ -1072,7 +1260,11 @@ services:
       - LETSENCRYPT_WILDCARD=ture
       - TZ=$TZ
     networks:
-      tamimology_bridge:
+      my_bridge:
+    # logging:
+    #   driver: loki
+    #   options:
+    #     loki-url: "http://$LOCAL_HOST:3002/loki/api/v1/push"
     image: 'maksimstojkovic/letsencrypt:latest'
 #
 ####################################################
@@ -1086,7 +1278,13 @@ services:
     restart: $RESTART_POLICY
     hostname: libretranslate
     environment:
-      LT_LOAD_ONLY: en,ar, de,zh,it,es,fr,pl,tr,ru,fi,nl,id,cs,el,hu,sk
+      LT_LOAD_ONLY: en,ar #,de,zh,it,es,fr,pl,tr,ru,fi,nl,id,cs,el,hu,sk
+      # LT_API_KEYS: true
+      # LT_API_KEYS_DB_PATH: /app/db/api_keys.db # Same result as `db/api_keys.db` or `./db/api_keys.db`
+      # LT_UPDATE_MODELS: true
+    # volumes:
+    #   - $PERSIST/libretranslate/db:/app/db
+    #   - $PERSIST/libretranslate/models:/home/libretranslate/.local:rw
     healthcheck:
       test: ['CMD-SHELL', './venv/bin/python scripts/healthcheck.py']
     security_opt:
@@ -1094,7 +1292,7 @@ services:
     ports:
       - 7821:5000
     networks: 
-      tamimology_bridge:
+      my_bridge:
     image: 'libretranslate/libretranslate:latest'
 #
 ####################################################
@@ -1122,7 +1320,7 @@ services:
     ports:
       - 8245:8080
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'librex/librex:latest'
 #
 ####################################################
@@ -1136,17 +1334,42 @@ services:
     restart: $RESTART_POLICY
     hostname: lingva
     environment:
-      site_domain: lingva.$DOMAINNAME
+      site_domain: translate.$DOMAINNAME
       force_default_theme: dark
       default_source_lang: auto
       default_target_lang: en
     ports:
       - 6455:3000
     networks:
-      tamimology_bridge: 
+      my_bridge: 
     security_opt:
       - no-new-privileges:true
     image: 'thedaviddelta/lingva-translate:latest'
+#
+####################################################
+#                                                  #
+#                 -------Memos-------              #
+#                                                  #
+####################################################
+#
+  memos:
+    container_name: memos
+    restart: $RESTART_POLICY
+    hostname: memos
+    volumes:
+      - $PERSIST/memos:/var/opt/memos
+    ports:
+      - 5230:5230
+    networks:
+      my_bridge:
+    labels: 
+      # autoheal: $AUTOHEAL_RESTART
+      monocker.enable: $MONOCKER_ENABLE
+    # logging:
+    #   driver: loki
+    #   options:
+    #     loki-url: "http://$LOCAL_HOST:3002/loki/api/v1/push"
+    image: 'neosmemo/memos:latest'
 #
 ####################################################
 #                                                  #
@@ -1161,45 +1384,12 @@ services:
     ports:
       - 404:8080
     networks:
-      tamimology_bridge:
+      my_bridge:
+    # logging:
+    #   driver: loki
+    #   options:
+    #     loki-url: "http://$LOCAL_HOST:3002/loki/api/v1/push"
     image: 'modem7/middle-finger:dual'
-#
-####################################################
-#                                                  #
-#                      MQTT                        #
-#                                                  #
-####################################################
-#
-# access container using sh/bash --> mosquitto_passwd -c /mosquitto/config/credentials <username>
-# or
-# create a file  /mqtt/config/credentials
-# edit the file and add <username>:<password>, i.e. homeassistant:1234ABCD
-# in  /docker/mqtt/config/mosquitto.conf add the below 2 lines:
-# allow_anonymous false
-# password_file /mqtt/config/credentials
-#
-  mqtt:
-    container_name: mqtt
-    restart: $RESTART_POLICY
-    hostname: mqtt
-    volumes:
-      - $PERSIST/mqtt/config:/mosquitto/config
-      - $PERSIST/mqtt/data:/mosquitto/data
-      - $PERSIST/mqtt/log:/mosquitto/log
-      - $PERSIST/mqtt/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
-    ports:
-      - 1883:1883
-      - 9001:9001
-    networks:
-      tamimology_bridge:
-    #healthcheck:
-    #  test: ["CMD", "mosquitto_sub", "-h", "localhost", "-t", "$$SYS/broker/uptime", "-i", "docker_health_check", "-C", "1"]
-    #  interval: 30s
-    #  timeout: 10s
-    #  retries: 3
-    labels:
-      - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
-    image: 'eclipse-mosquitto:latest' #'eclipse-mosquitto:openssl'
 #
 ####################################################
 #                                                  #
@@ -1217,7 +1407,7 @@ services:
     ports:
         - 9100:9100
     networks:
-      tamimology_bridge:
+      my_bridge:
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
     image: 'prom/node-exporter:latest'
@@ -1238,6 +1428,7 @@ services:
       - $PERSIST/nodered:/data
     ports:
       - 1880:1880/tcp
+    #network_mode: "host"
     healthcheck:
       test: curl -fSs http://127.0.0.1:1880 || exit 1
       start_period: 90s
@@ -1245,7 +1436,7 @@ services:
       interval: 5s
       retries: 3    
     networks:
-      tamimology_bridge:
+      my_bridge:
     working_dir: /usr/src/node-red
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
@@ -1261,7 +1452,12 @@ services:
 # convert the sqlite v3 file to mysql format using https://www.rebasedata.com/convert-sqlite-to-mysql-online
 # to migrate from local sqlite to MariaDB, execute the below command:
 # sudo docker exec -i [container_name] mysql --user=[User] --password=[Password] -h[Host] [db_name]<[mysql_file]
-#
+#   [container_name]=mariadb
+#   [User]=npm
+#   [Password]=1234ABCD
+#   [Host]=192.168.1.10 
+#   [db_name]=npmdb
+#   [mysql_file]=data.sql
 #
   npm:
     container_name: nginx-proxy-manager
@@ -1286,7 +1482,7 @@ services:
       - 881:81
       - 843:443
     networks:
-      tamimology_bridge:
+      my_bridge:
     depends_on:
         mariadb:
           condition: service_healthy
@@ -1319,7 +1515,7 @@ services:
     ports:
       - 8989:8080
     networks:
-      tamimology_bridge:
+      my_bridge:
     depends_on:
       - osldb
     image: 'nanawel/our-shopping-list:latest'
@@ -1341,7 +1537,7 @@ services:
     ports:
       - 27017:27017
     networks:
-      tamimology_bridge:
+      my_bridge:
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
     image: 'mongo:4.0'
@@ -1365,99 +1561,17 @@ services:
       - LATEST=true
       - SELF_UPDATE=true
       - SKIP_STARTUP_NOTIFICATIONS=true 
-      - NOTIFIERS="pover://$POVERUSRER@@POVERAPI"
+      - NOTIFIERS="pover://uf3foyf32w8pi6gfzamwo2tfay99cr@a9peo818h7jrwd2yvvkpxu5kqubgc3"
       #- IGNORE=esphome homeassistant
       - TZ=$TZ
     volumes:
       - $DOCKER_SOCKET:/var/run/docker.sock:rw
     networks:
-      tamimology_bridge:
+      my_bridge:
     working_dir: /app
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
     image: 'pyouroboros/ouroboros:latest'
-#
-####################################################
-#                                                  #
-#              -------Paperless-------             #
-#                                                  #
-####################################################
-#
-  paperless:
-    container_name: paperless
-    restart: $RESTART_POLICY
-    hostname: paperless
-    environment:
-      PAPERLESS_REDIS: redis://paperless-redis:6379
-      PAPERLESS_DBHOST: paperless-db
-      USERMAP_UID: $PUID
-      USERMAP_GID: $PGID
-      PAPERLESS_TIME_ZONE: $TZ
-      PAPERLESS_ADMIN_USER: admin
-      PAPERLESS_ADMIN_PASSWORD: $PASSWD
-      PAPERLESS_OCR_LANGUAGES: ara eng # https://packages.debian.org/search?keywords=tesseract-ocr-&searchon=names&suite=buster
-      PAPERLESS_OCR_LANGUAGE: eng #defualt language
-      PAPERLESS_SECRET_KEY: $APP_KEY
-      PAPERLESS_URL: https://paperless.$DOMAINNAME
-    volumes:
-      - $PERSIST/paperlessngx/data:/usr/src/paperless/data
-      - $PERSIST/paperlessngx/media:/usr/src/paperless/media
-      - $PERSIST/paperlessngx/export:/usr/src/paperless/export
-      - $PERSIST/paperlessngx/consume:/usr/src/paperless/consume
-    ports:
-      - 8777:8000
-    networks:
-      tamimology_bridge:
-    labels:
-      - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
-    depends_on:
-      - paperless-db
-      - paperless-redis
-    image: 'ghcr.io/paperless-ngx/paperless-ngx:latest'
-#
-####################################################
-#                                                  #
-#             -------Paperless-DB-------           #
-#                                                  #
-####################################################
-#
-  paperless-db:
-    container_name: paperless-db
-    restart: $RESTART_POLICY
-    hostname: paperless-db
-    environment:
-      POSTGRES_DB: paperless
-      POSTGRES_USER: paperless
-      POSTGRES_PASSWORD: paperless
-    volumes:
-      - $PERSIST/paperlessngx/db:/var/lib/postgresql/data
-    ports:
-      - 5430:5432
-    networks:
-      tamimology_bridge:
-    labels:
-      - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
-    image: postgres:alpine
-#
-####################################################
-#                                                  #
-#           -------Paperless-Redis-------          #
-#                                                  #
-####################################################
-#
-  paperless-redis:
-    container_name: paperless-redis
-    restart: $RESTART_POLICY
-    hostname: paperless-redis
-    volumes:
-      - $PERSIST/paperlessngx/broker:/data
-    expose:
-      - 6378
-    networks:
-      tamimology_bridge:
-    labels:
-      - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
-    image: 'redis:alpine'
 #
 ####################################################
 #                                                  #
@@ -1473,7 +1587,7 @@ services:
     restart: $RESTART_POLICY
     hostname: phpmyadmin
     environment:
-      - PMA_HOST=mariadb
+      - PMA_HOST=mariadb #172.18.0.8 #mariadb ip address
       - PMA_USER=root
       - PMA_PASSWORD=$DB_PASSWORD
       - TZ=$TZ
@@ -1482,7 +1596,7 @@ services:
     ports:
       - 3300:80 
     networks:
-      tamimology_bridge:
+      my_bridge:
     depends_on:
       - mariadb
     tty: true
@@ -1505,7 +1619,7 @@ services:
     ports:
         - 4100:4100
     networks:
-      tamimology_bridge:
+      my_bridge:
     command: --config.file=/etc/phlare/config.yaml
     image: 'grafana/phlare:latest'
 #
@@ -1533,8 +1647,8 @@ services:
       - $MEDIA_PATH/Photos:/photoprism/originals:rw
 #     - /volume1/docker/photoprism/family:/photoprism/originals/family:rw               # *Additional* media folders can be mounted like this
     environment:
-      PHOTOPRISM_ADMIN_USER: admn
-      PHOTOPRISM_ADMIN_PASSWORD: $PASSWOD
+      PHOTOPRISM_ADMIN_USER: tam
+      PHOTOPRISM_ADMIN_PASSWORD: ts*JhcmL&5zc^5
       PHOTOPRISM_UID: $PUID
       PHOTOPRISM_GID: $PGID
       PHOTOPRISM_AUTH_MODE: password
@@ -1573,7 +1687,7 @@ services:
 #     PHOTOPRISM_SITE_AUTHOR: ""
     working_dir: "/photoprism"
     networks:
-      tamimology_bridge:
+      my_bridge:
     depends_on:
       mariadb:
         condition: service_started
@@ -1601,7 +1715,7 @@ services:
     ports:
       - 7354:4000
     networks:
-      tamimology_bridge:
+      my_bridge:
     security_opt:
       - no-new-privileges:true
     read_only: true
@@ -1630,7 +1744,7 @@ services:
     volumes:
       - $PERSIST/photoview/db:/var/lib/postgresql/data:rw
     networks:
-      tamimology_bridge:  
+      my_bridge:  
     security_opt:
       - no-new-privileges:true
     user: $PUID:$PGID
@@ -1640,7 +1754,6 @@ services:
       interval: 10s
       retries: 10
     image: 'postgres:alpine'
-#
 #
 ####################################################
 #                                                  #
@@ -1660,7 +1773,11 @@ services:
     ports:
       - 8179:3001
     networks:
-      tamimology_bridge:
+      my_bridge:
+    # logging:
+    #   driver: loki
+    #   options:
+    #     loki-url: "http://$LOCAL_HOST:3002/loki/api/v1/push"
     command: -db /data/store.db -vacuum true
     image: 'mtlynch/picoshare:latest'
 #
@@ -1685,7 +1802,7 @@ services:
     ports:
       - 9842:8080
     networks:
-      tamimology_bridge:  
+      my_bridge:  
     security_opt:
       - no-new-privileges:true
     read_only: true
@@ -1693,6 +1810,14 @@ services:
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:8080
     image: 'bpatrik/pigallery2:latest'
+#
+# steps
+# https://mariushosting.com/how-to-install-piped-on-your-synology-nas/
+# config files
+# https://github.com/TeamPiped/Piped-Docker/blob/main/template/docker-compose.nginx.yml
+#
+# https://takeout.google.com/takeout/custom/youtube
+#
 #
 ####################################################
 #                                                  #
@@ -1712,7 +1837,7 @@ services:
       POSTGRES_USER: piped
       POSTGRES_PASSWORD: $DB_PASSWORD
     networks:
-      tamimology_bridge:
+      my_bridge:
     security_opt:
       - no-new-privileges:true
     healthcheck:
@@ -1738,7 +1863,7 @@ services:
     volumes:
         - $PERSIST/piped/config.properties:/app/config.properties:ro
     networks:
-      tamimology_bridge:
+      my_bridge:
     healthcheck:
       test: stat /etc/passwd || exit 1
     labels: 
@@ -1762,7 +1887,7 @@ services:
     hostname: piped-frontend
     restart: $RESTART_POLICY
     networks:
-      tamimology_bridge:
+      my_bridge:
     security_opt:
       - no-new-privileges:true
     depends_on:
@@ -1789,7 +1914,7 @@ services:
     ports:
       - 7601:80
     networks:
-      tamimology_bridge:
+      my_bridge:
     volumes:
       - $PERSIST/piped/proxy:/var/run/ytproxy:rw
       - $PERSIST/piped/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
@@ -1828,7 +1953,7 @@ services:
     volumes:
       - $PERSIST/piped/proxy:/app/socket:rw
     networks:
-      tamimology_bridge:
+      my_bridge:
     read_only: true
     security_opt:
       - no-new-privileges:true
@@ -1849,7 +1974,7 @@ services:
     hostname: piwigo
     volumes:
       - $PERSIST/piwigo/config:/config
-      - $MEDIA_PATH/Photo Albums:/gallery
+      - $MEDIA_PATH/Photos:/gallery
     environment:
       - PUID=$PUID
       - PGID=$PGID
@@ -1863,12 +1988,9 @@ services:
     ports:
       - 8100:80
     networks:
-      tamimology_bridge:
-    labels:
-      - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
-      - autoheal=$AUTOHEAL_RESTART
+      my_bridge:
     depends_on:
-      - piwigodb
+      - mariadb
     image: 'ghcr.io/linuxserver/piwigo:latest'
 #
 ####################################################
@@ -1896,11 +2018,51 @@ services:
     expose: 
       - 3306
     networks:
-      tamimology_bridge:
+      my_bridge:
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
       - autoheal
-    image: 'jbergstroem/mariadb-alpine:10.6.13'
+    image: 'vcxpz/mariadb:latest'
+#
+####################################################
+#                                                  #
+#        -------Piwigo-MariaDB-Backup-------       #
+#                                                  #
+####################################################
+#
+# used for piwigo db in container
+#
+  piwigo-mariadb-backup:
+    container_name: piwigo-mariadb-backup
+    restart: $RESTART_POLICY
+    hostname: piwigo-mariadb-backup
+    volumes:
+      - $BACKUPS/mariadb/piwigo:/backup
+      #- ./post-script.sh:/assets/custom-scripts/post-script.sh
+    environment:
+      - TIMEZONE=$TZ
+      - DB_TYPE=mariadb
+      - DB_HOST=piwigodb
+      - DB_PORT=3306
+      - DB_NAME=piwigo
+      - DB_USER=piwigo
+      - DB_PASS=$DB_PASSWORD
+      - DB_DUMP_FREQ=1440 #once per day
+      - DB_DUMP_BEGIN=0030 # @00:30 midnight
+      - DB_CLEANUP_TIME=8640 # keep for 6 days
+      - CHECKSUM=SHA1
+      - COMPRESSION=ZSTD
+      - COMPRESSION_LEVEL=10
+      - SPLIT_DB=FALSE
+      - MYSQL_SINGLE_TRANSACTION=true
+      - CONTAINER_ENABLE_MONITORING=FALSE
+    networks:
+      my_bridge:
+    labels:
+      - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
+    links:
+     - piwigodb
+    image: 'tiredofit/db-backup:latest'
 #
 ####################################################
 #                                                  #
@@ -1920,7 +2082,7 @@ services:
     ports:
       - 9090:9090
     networks:
-      tamimology_bridge:
+      my_bridge:
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
     user: root
@@ -1953,8 +2115,9 @@ services:
       timeout: 10s
       interval: 5s
       retries: 3
+    #network_mode: "host"
     networks:
-      tamimology_bridge:
+      my_bridge:
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
       - autoheal=$AUTOHEAL_RESTART
@@ -1982,7 +2145,11 @@ services:
       - 9000:9000/tcp
       - 9443:9443/tcp
     networks:
-      tamimology_bridge:
+      my_bridge:
+    # logging:
+    #   driver: loki
+    #   options:
+    #     loki-url: "http://$LOCAL_HOST:3002/loki/api/v1/push"
     image: 'portainer/portainer-ce:alpine'
 #
 ####################################################
@@ -2000,7 +2167,7 @@ services:
     ports:
       - 9494:9494
     networks:
-      tamimology_bridge:
+      my_bridge:
     image: 'ghcr.io/aleksilassila/reiverr:latest'
 #
 ####################################################
@@ -2020,7 +2187,7 @@ services:
     ports:
      - 5080:8080
     networks:
-      tamimology_bridge:
+      my_bridge:
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
     cap_drop:
@@ -2064,16 +2231,18 @@ services:
     restart: $RESTART_POLICY
     hostname: shiori
     environment:
+      - SHIORI_HTTP_SECRET_KEY=$APP_KEY
       - PUID=1000
       - PGID=1000
       # - SHIORI_DIR=/data
     ports:
         - 18080:8080
     networks:
-      tamimology_bridge:
+      my_bridge:
     volumes:
+        # - $PERSIST/shiori:/shiori-data
         - $PERSIST/shiori:/shiori
-    image: 'ghcr.io/go-shiori/shiori:latest'
+    image: 'ghcr.io/go-shiori/shiori:latest' #'peppershade/shiori:latest'
 #
 ####################################################
 #                                                  #
@@ -2092,13 +2261,13 @@ services:
     depends_on:
       - mariadb
     networks:
-      tamimology_bridge:
+      my_bridge:
     volumes:
       - $PERSIST/snipeit:/config:rw
     environment:
       - TZ=$TZ
       - APP_URL=http://192.168.1.10:1339
-      - APP_KEY=base64:$APPKEYJWT
+      - APP_KEY=base64:jtww95XJZi2u97Nou8a9SMI2CZg6BOvfdUc7yF9y4bw=
       - MYSQL_PORT_3306_TCP_ADDR=mariadb
       - MYSQL_PORT_3306_TCP_PORT=3306
       - MYSQL_DATABASE=snipe
@@ -2109,7 +2278,7 @@ services:
       - MAIL_PORT_587_TCP_ADDR=$GM_HOST
       - MAIL_PORT_587_TCP_PORT=$GM_PORT
       - MAIL_ENV_FROM_ADDR=$GM_USER
-      - MAIL_ENV_FROM_NAME=My Server
+      - MAIL_ENV_FROM_NAME=Tamimology Server
       - MAIL_ENV_ENCRYPTION=SSL
       - MAIL_ENV_USERNAME=$GM_USER
       - MAIL_ENV_PASSWORD=$GM_PSW
@@ -2122,8 +2291,10 @@ services:
 #                                                  #
 ####################################################
 #
+# https://www.smarthomebeginner.com/traefik-docker-security-best-practices/#9_Use_a_Docker_Socket_Proxy
+#
 # to test connectivity, run the below in SSH
-# docker -H tcp://192.168.1.100:2376 --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem info
+# docker -H tcp://192.168.1.10:2376 --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem info
 #
   dsp:
     container_name: dsp
@@ -2162,7 +2333,7 @@ services:
     ports:
       - 8205:8200
     networks:
-      tamimology_bridge:
+      my_bridge:
     security_opt:
       - no-new-privileges:true
     cap_add:
@@ -2190,7 +2361,7 @@ services:
     ports:
       - 8181:8080
     networks:
-      tamimology_bridge:
+      my_bridge:
     working_dir: /home/coder
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
@@ -2225,7 +2396,7 @@ services:
       retries: 3
       start_period: 10s  
     networks:
-      tamimology_bridge:
+      my_bridge:
     ports:
       - 3000:3000
     image: 'fmartinou/whats-up-docker:latest'
@@ -2244,14 +2415,14 @@ services:
       PUID: $PUID
       PGID: $PGID
       AUTH_TYPE: Digest
-      USERNAME: admin
-      PASSWORD: $PAWD
+      USERNAME: tam
+      PASSWORD: ABCD1234
     volumes:
       - $PERSIST/webdav:/var/lib/dav
     ports:
       - 8888:80
     networks:
-      tamimology_bridge:
+      my_bridge:
     labels:
       - deunhealth.restart.on.unhealthy=$AUTOHEAL_RESTART
     image: 'bytemark/webdav:latest'
@@ -2279,7 +2450,7 @@ services:
     restart: $ALWAYS_ON_POLICY
     hostname: webnut
     environment:
-      UPS_HOST: "192.168.1.100"
+      UPS_HOST: "192.168.1.10"
       UPS_PORT: "3493"
       UPS_USER: "upsadmin"
       UPS_PASSWORD: "secret"
@@ -2287,6 +2458,33 @@ services:
      - 6543:6543
     network_mode: host
     image: 'edgd1er/webnut:latest'
+#
+####################################################
+#                                                  #
+#           -------Container-WebTTY-------         #
+#                                                  #
+####################################################
+#
+  webtty:
+    container_name: container-webtty
+    restart: $RESTART_POLICY
+    hostname: webtty
+    environment:
+      - DOCKER_HOST=$SOCKET
+      # - WEB_TTY_GRPC_PORT=8090
+      # - WEB_TTY_GRPC_AUTH=1234ABCD
+    volumes:
+      - $DOCKER_SOCKET:/var/run/docker.sock
+    ports:
+      - 8818:8080
+    #  - 8090:8090
+    networks:
+      my_bridge:
+    # logging:
+    #   driver: loki
+    #   options:
+    #     loki-url: "http://$LOCAL_HOST:3002/loki/api/v1/push"
+    image: 'wrfly/container-web-tty:0.1.10' #latest'
 #
 ####################################################
 #                                                  #
@@ -2299,18 +2497,24 @@ services:
     restart: $RESTART_POLICY
     hostname: wetty
     environment:
-      SSHHOST: 192.168.1.100
-      SSHPORT: 22
-      SSHUSER: $SSHUSER
+      SSHHOST: 192.168.1.10
+      SSHPORT: 1234
+      SSHUSER: tam
       SSHPASS: $SSHPASS
       NODE_ENV: 'development'
       BASE: /
       VERSION: true
+      # COMMAND: 'cd $PERSIST'
+      TITLE: 'Tamimology SSH'
     ports:
       - 5800:3000
     networks:
-      tamimology_bridge:
+      my_bridge:
         ipv4_address: $BRIDGE_NET.100
+    # logging:
+    #   driver: loki
+    #   options:
+    #     loki-url: "http://$LOCAL_HOST:3002/loki/api/v1/push"
     tty: true
     working_dir: /usr/src/app
     image: 'wettyoss/wetty:latest'
@@ -2335,7 +2539,9 @@ services:
       - 8522:80
       - 4443:443
     networks:
-      tamimology_bridge: 
+      my_bridge: 
     image: 'lscr.io/linuxserver/xbackbone:latest'
 #
+
+
 
